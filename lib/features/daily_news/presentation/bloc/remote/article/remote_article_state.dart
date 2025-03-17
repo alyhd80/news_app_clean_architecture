@@ -13,10 +13,14 @@ abstract class RemoteArticleState extends Equatable{
   List<Object> get props=> [articles!,error!];
 }
 
-class RemoteArticleLoading extends RemoteArticleState{
-  const RemoteArticleLoading();
+class RemoteArticlesLoading extends RemoteArticleState{
+  const RemoteArticlesLoading();
 }
 
-class RemoteArticleDone extends RemoteArticleState{
-  const RemoteArticleDone(List<ArticleEntity> article):super(articles: article);
+class RemoteArticlesDone extends RemoteArticleState{
+  const RemoteArticlesDone(List<ArticleEntity> article):super(articles: article);
+}
+
+class RemoteArticlesError extends RemoteArticleState{
+  const RemoteArticlesError(DioError error):super(error: error);
 }
