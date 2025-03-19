@@ -17,11 +17,14 @@ class RemoteArticlesBloc extends Bloc<RemoteArticlesEvent,RemoteArticleState>{
    final dataState=await _getArticleUseCase();
 
    if(dataState is DataSuccess && dataState.data!.isNotEmpty){
+     print("--------is success ${dataState.data}");
      emit(
        RemoteArticlesDone(dataState.data!)
      );
    }
    if(dataState is DataFailed){
+     print("--------not success");
+     print(dataState.error!.message);
      emit(
        RemoteArticlesError(dataState.error!)
      );
