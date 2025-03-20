@@ -4,26 +4,42 @@ import 'package:news_app_clean/features/daily_news/data/data_sources/remote/news
 import 'package:news_app_clean/features/daily_news/data/repository/article_repository_impl.dart';
 import 'package:news_app_clean/features/daily_news/domain/repository/article_repository.dart';
 import 'package:news_app_clean/features/daily_news/domain/usecase/get_article.dart';
+import 'package:news_app_clean/features/daily_news/domain/usecase/get_saved_article.dart';
+import 'package:news_app_clean/features/daily_news/domain/usecase/remove_article.dart';
+import 'package:news_app_clean/features/daily_news/domain/usecase/save_article.dart';
+import 'package:news_app_clean/features/daily_news/presentation/bloc/local/local_article_bloc.dart';
 import 'package:news_app_clean/features/daily_news/presentation/bloc/remote/article/remote_article_bloc.dart';
 
-// import 'features/daily_news/data/data_sources/local/app_database.dart';
+import 'features/daily_news/data/data_sources/local/app_database.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
-  // final database=await $FloorAppDatabase.databaseBuilder("app_database.db").build();
-  // sl.registerSingleton<AppDatabase>(database);
+  final database=await $FloorAppDatabase.databaseBuilder("app_database.db").build();
+  sl.registerSingleton<AppDatabase>(database);
 
   //Dio
   sl.registerSingleton<Dio>(Dio());
   // Dependencies
   sl.registerSingleton<NewsApiService>(NewsApiService(sl()));
 
-  sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl()));
+  sl.registerSingleton<ArticleRepository>(ArticleRepositoryImpl(sl(),sl()));
 
   //use cases
   sl.registerSingleton<GetArticleUseCase>(GetArticleUseCase(sl()));
 
+  sl.registerSingleton<GetSavedArticleUseCase>(GetSavedArticleUseCase(sl()));
+  sl.registerSingleton<SavedArticleUseCase>(SavedArticleUseCase(sl()));
+  sl.registerSingleton<RemoveArticleUseCase>(RemoveArticleUseCase(sl()));
+
+
+
+
   //Blocs
   sl.registerFactory<RemoteArticlesBloc>(() => RemoteArticlesBloc(sl()));
+
+  sl.registerFactory<LocalArticleBloc>(
+      ()=>LocalArticleBloc(sl(), sl(), sl())
+  );
+
 }

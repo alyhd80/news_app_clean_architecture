@@ -10,10 +10,10 @@ part of 'news_api_service.dart';
 
 class _NewsApiService implements NewsApiService {
   _NewsApiService(
-    this._dio, {
-    this.baseUrl,
-    this.errorLogger,
-  }) {
+      this._dio, {
+        this.baseUrl,
+        this.errorLogger,
+      }) {
     baseUrl ??= 'https://newsapi.org/v2';
   }
 
@@ -44,25 +44,25 @@ class _NewsApiService implements NewsApiService {
       extra: _extra,
     )
         .compose(
-          _dio.options,
-          '/top-headlines',
-          queryParameters: queryParameters,
-          data: _data,
-        )
+      _dio.options,
+      '/top-headlines',
+      queryParameters: queryParameters,
+      data: _data,
+    )
         .copyWith(
-            baseUrl: _combineBaseUrls(
+        baseUrl: _combineBaseUrls(
           _dio.options.baseUrl,
           baseUrl,
         )));
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-   late      List<ArticleModel> _value=[];
+    late      List<ArticleModel> _value=[];
     if (_result.data != null && _result.data!["articles"] is List) {
-    _value = (_result.data!["articles"] as List)
+      _value = (_result.data!["articles"] as List)
           .map((item) => ArticleModel.fromJson(item as Map<String, dynamic>))
           .toList();
     }
 
-      print("--------value issssss ${_value[0].title}");
+    print("--------value issssss ${_value[0].title}");
     final httpResponse = HttpResponse(_value, _result);
     return httpResponse;
   }
@@ -81,9 +81,9 @@ class _NewsApiService implements NewsApiService {
   }
 
   String _combineBaseUrls(
-    String dioBaseUrl,
-    String? baseUrl,
-  ) {
+      String dioBaseUrl,
+      String? baseUrl,
+      ) {
     if (baseUrl == null || baseUrl.trim().isEmpty) {
       return dioBaseUrl;
     }

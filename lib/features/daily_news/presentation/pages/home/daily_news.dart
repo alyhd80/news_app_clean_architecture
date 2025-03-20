@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_clean/features/daily_news/presentation/bloc/remote/article/remote_article_bloc.dart';
 import 'package:news_app_clean/features/daily_news/presentation/bloc/remote/article/remote_article_state.dart';
+import 'package:news_app_clean/features/daily_news/presentation/pages/article_detail/article_detail.dart';
 import 'package:news_app_clean/features/daily_news/presentation/widgets/article_tile.dart';
 
 class DailyNews extends StatelessWidget {
@@ -33,6 +34,9 @@ class DailyNews extends StatelessWidget {
             itemBuilder: (context, index) {
               print("------data: ${index}   ${state.articles![index]}");
               return ListTile(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ArticleDetailsView(article: state.articles![index],)));
+                },
                 title: ArticleWidget(
                   article: state.articles![index],
                 ),
