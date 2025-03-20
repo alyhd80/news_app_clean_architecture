@@ -32,7 +32,7 @@ class ArticleDetailsView extends HookWidget {
           },
           behavior: HitTestBehavior.opaque,
           child: const Icon(
-            Icons.arrow_forward_ios_sharp,
+            Icons.keyboard_arrow_left_rounded,
             color: Colors.black,
           ),
         ),
@@ -110,6 +110,7 @@ class ArticleDetailsView extends HookWidget {
   Widget _buildFloatingActionButton() {
     return Builder(
         builder: (context) => FloatingActionButton(
+              backgroundColor: Colors.blueAccent,
               onPressed: () => _onFloatingActionButtonPressed(context),
               // رفع مشکل
               child: Icon(

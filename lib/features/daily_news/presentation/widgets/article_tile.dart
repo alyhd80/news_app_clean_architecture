@@ -5,27 +5,46 @@ import 'package:news_app_clean/features/daily_news/domain/entities/article.dart'
 
 class ArticleWidget extends StatelessWidget {
   final ArticleEntity? article;
-
-  const ArticleWidget({super.key, this.article});
+  final bool? isRemoveEnable;
+final VoidCallback? onTapRemove;
+final VoidCallback? onTap;
+  const ArticleWidget({super.key, this.article, this.isRemoveEnable = false, this.onTapRemove, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-      height: MediaQuery.of(context).size.width / 2.2,
-      child: Row(
-        children: [_buildImage(context), _buildTitleAndDescription(context)],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colors.transparent,
+        padding: EdgeInsets.symmetric(vertical: 14, horizontal: 20),
+        height: MediaQuery.of(context).size.width / 2.2,
+        child: Row(
+          children: [
+            _buildImage(context),
+            _buildTitleAndDescription(context),
+            if (isRemoveEnable == true)
+              GestureDetector(onTap: onTapRemove,
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  color: Colors.transparent,
+                  child: Icon(
+                    Icons.remove_circle,
+                    color: Colors.red,
+                  ),
+                ),
+              )
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildImage(BuildContext context) {
-
-
-    print('--data ${article?.author??""}');
+    print('--data ${article?.author ?? ""}');
 
     return CachedNetworkImage(
-      imageUrl: article!.urlToImage??"",
+      imageUrl: article!.urlToImage ?? "",
       imageBuilder: (context, imageProvider) => Padding(
         padding: EdgeInsetsDirectional.only(end: 14),
         child: ClipRRect(
@@ -108,7 +127,7 @@ class ArticleWidget extends StatelessWidget {
                 width: 4,
               ),
               Text(
-                article!.publishedAt??"",
+                article!.publishedAt ?? "",
                 style: const TextStyle(fontSize: 12),
               )
             ],
